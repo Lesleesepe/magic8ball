@@ -1,0 +1,38 @@
+main { 
+    height: calc(100vh - 60px);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main p {
+    width: 700px;
+    height: 400px;
+    line-height: 80px;
+    text-align: center;
+    font-size: 50px;
+    background-color: #541410 ;
+    color: aliceblue;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+
+main button {
+    width: 250px;
+    height: 60px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    margin-top: 30px;
+    font-size: 30px;
+    background: linear-gradient(#a64139, #f4f4f4 );
+    cursor: pointer;
+    margin: 30px;
+    margin-top: 10px;
+}
+
+main button:hover {
+    transform:translateY(5px);
+    transition: 0.2s;
+}

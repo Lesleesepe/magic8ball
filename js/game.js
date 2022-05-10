@@ -2,8 +2,8 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
+canvas.width = 1024
+canvas.height = 526
 
 // neg # will float.  higher number will drop faster
 const gravity = 0.5
@@ -75,11 +75,13 @@ let scrollOffset = 0
 function animate () {
     requestAnimationFrame(animate)
     // clearRect will clear the rectangle above it to keep it square instead of a line
-    c.clearRect(0,0,canvas.width, canvas.height)
-    player.update()
+    c.fillStyle = 'white'
+    c.fillRect(0,0,canvas.width, canvas.height)
+
     platforms.forEach((platform) => {
         platform.draw()
     })
+    player.update()
     
 
     //player movement

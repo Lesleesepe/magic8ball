@@ -37,7 +37,6 @@ class Player {
 
         if (this.position.y + this.height + this.velocity.y <= canvas.height)
         this.velocity.y += gravity
-        else this.velocity.y = 0
     }
 }
 
@@ -58,8 +57,26 @@ class Platform {
     }
 }
 
-const player = new Player()
-const platforms = [new Platform({x: 200, y: 100}), new Platform({ x:500, y: 250})]
+class Ball {
+    constructor({x, y}) {
+        this.position = {
+            x,
+            y
+        }
+
+        this.width = 40
+        this.height = 40
+    }
+
+    draw() {
+        c.fillStyle = 'black'
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+let player = new Player()
+let platforms = []
+let ball = []
 
 const keys = {
     right: {
@@ -72,6 +89,31 @@ const keys = {
 
 let scrollOffset = 0
 
+//reset player
+function init() {
+    player = new Player()
+    ball = [
+    new Ball({x: 3150, y: 110})
+    ]
+    platforms = [ 
+    //floor
+    new Platform({ x: 0, y: 500}), 
+    new Platform({x:200, y: 500 }),
+    new Platform({x: 1800, y: 500}), 
+    new Platform({x: 2250, y: 500}),
+    //floating floor 
+    new Platform({x:400, y: 300 }), 
+    new Platform({x: 650, y: 200}),
+    new Platform({x: 1100, y: 400}),
+    new Platform({x: 1300, y: 250}),
+
+    new Platform({x: 2450, y: 300}),
+    new Platform({x: 2850, y: 150}),
+    new Platform({x: 3050, y: 150}),
+    ]
+
+}
+
 function animate () {
     requestAnimationFrame(animate)
     // clearRect will clear the rectangle above it to keep it square instead of a line
@@ -81,37 +123,47 @@ function animate () {
     platforms.forEach((platform) => {
         platform.draw()
     })
+
+    ball.forEach((ball) => {
+        ball.draw()
+    })
     player.update()
     
 
     //player movement
    if (keys.right.pressed && player.position.x < 400) {
        player.velocity.x = 5
-   } else if (keys.left.pressed && player.position.x > 100) {
-       player.velocity.x = -5
-   } else {
-       player.velocity.x = 0 
+    } else if ((keys.left.pressed && player.position.x > 100)  ||keys.left.pressed && scrollOffset === 0 && player.position.x > 0) {
+    player.velocity.x = -5
+    } else {
+    player.velocity.x = 0 
 
-       if (keys.right.pressed) {
-        scrollOffset += 5
-        platforms.forEach((platform) => {
-            platform.position.x -= 5
-        })
+    if (keys.right.pressed) {
+    scrollOffset += 5
+    platforms.forEach((platform) => {
+    platform.position.x -= 5
+    })
+    ball.forEach((ball) => {
+    ball.position.x -= 5
+    })
 
-       } else if (keys.left.pressed) {
-        scrollOffset -= 5
-        platforms.forEach((platform) => {
-            platform.position.x += 5
-        })
+    } else if (keys.left.pressed && scrollOffset > 0) {
+    scrollOffset -= 5
+    platforms.forEach((platform) => {
+    platform.position.x += 5
+    })
 
-       }
-   }
+    }
+}
 
    console.log (scrollOffset)
 
    //platform collision detection
     platforms.forEach((platform) => {
-        if (player.position.y + player.height <=  platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x  && player.position.x <= platform.position.x +platform.width) {
+        if (player.position.y + player.height <=  platform.position.y && 
+        player.position.y + player.height + player.velocity.y >= platform.position.y &&
+        player.position.x + player.width >= platform.position.x  && 
+        player.position.x <= platform.position.x +platform.width) {
             player.velocity.y = 0
         }
 
@@ -119,12 +171,18 @@ function animate () {
             player.velocity.y = 1
         }
     })
-
+    // win condition
     if (scrollOffset > 2000) {
         console.log('you win!')
     }
+
+    //lose condition
+    if (player.position.y > canvas.height) {
+        init()
+    }
 }
 
+init()
 animate()
 
 addEventListener('keydown', ({keyCode}) => {
@@ -149,7 +207,7 @@ addEventListener('keydown', ({keyCode}) => {
         // W key
         case 87:
             console.log('up')
-            player.velocity.y -= 20
+            player.velocity.y -= 15
             break
    }
    console.log (keys.right.pressed)

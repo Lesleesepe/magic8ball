@@ -57,6 +57,7 @@ class Platform {
     }
 }
 
+//8 ball 
 class Ball {
     constructor({x, y}) {
         this.position = {
@@ -74,9 +75,30 @@ class Ball {
     }
 }
 
+// control text
+class Controls {
+    constructor({x, y}) {
+        this.position = {
+            x,
+            y
+        }
+
+        this.width = 100
+        this.height = 75
+        this.backgroundColor = 'green'
+        this.innerText = 'Controls\nLeft:A\nRight:D\nJump:W'
+    }
+    draw() {
+        c.fillStyle = 'green'
+        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        c.fillText('Controls: Left:A | Right:D | Jump:W', 10, 20)
+    }
+}
+
 let player = new Player()
 let platforms = []
 let ball = []
+let control = []
 
 const keys = {
     right: {
@@ -111,6 +133,7 @@ function init() {
     new Platform({x: 2850, y: 150}),
     new Platform({x: 3050, y: 150}),
     ]
+    control = [new Controls({x: 1, y: 1})]
 
 }
 
@@ -126,6 +149,10 @@ function animate () {
 
     ball.forEach((ball) => {
         ball.draw()
+    })
+
+    control.forEach((control) => {
+        control.draw()
     })
     player.update()
     
@@ -263,3 +290,5 @@ addEventListener('keyup', ({keyCode}) => {
     }
     console.log (keys.right.pressed)
  })
+
+

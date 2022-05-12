@@ -1,0 +1,26 @@
+body{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#eightBall {
+    height: 300px;
+    width: 300px;
+    background: url("../imgs/blank.png");
+    background-size: cover;
+}
+
+label{
+    font-size: 35px;
+}
+
+p {
+    font-size: 25px; 
+}
+
+.tv > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}

@@ -154,7 +154,9 @@ function animate () {
     })
 
     }
-}
+    }
+
+
 
    console.log (scrollOffset)
 
@@ -163,7 +165,7 @@ function animate () {
         if (player.position.y + player.height <=  platform.position.y && 
         player.position.y + player.height + player.velocity.y >= platform.position.y &&
         player.position.x + player.width >= platform.position.x  && 
-        player.position.x <= platform.position.x +platform.width) {
+        player.position.x <= platform.position.x + platform.width) {
             player.velocity.y = 0
         }
 
@@ -171,6 +173,25 @@ function animate () {
             player.velocity.y = 1
         }
     })
+
+    ball.forEach((ball) => {
+        if (player.position.y + player.height <= ball.position.y + ball.height && 
+        player.position.y + player.height + player.velocity.y >= ball.position.y &&
+        player.position.x + player.width >= ball.position.x   && 
+        player.position.x <= ball.position.x + ball.width) {
+            player.velocity.y = 0
+            player.velocity.x = 0
+            setTimeout(() => {
+                window.location.replace("../eightball/");
+              }, "1000")
+            
+        }
+
+        if (player.position.y <= 0) {
+            player.velocity.y = 1
+        }
+    })
+
     // win condition
     if (scrollOffset > 2000) {
         console.log('you win!')
@@ -181,6 +202,8 @@ function animate () {
         init()
     }
 }
+
+
 
 init()
 animate()
